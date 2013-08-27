@@ -7,9 +7,9 @@
 class Object
 {
 public:
-Ogre::SceneNode* Node;
+  Ogre::SceneNode* Node;
 
-Object(const Ogre::Vector3& position=Ogre::Vector3(0,0,0), const std::string& meshFile="Suzanne.mesh");
+  Object(const std::string& meshFile, const Ogre::Vector3& position=Ogre::Vector3(0,0,0));
 
 };
 

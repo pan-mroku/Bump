@@ -3,7 +3,7 @@
 #include <OgreEntity.h>
 #include <OgreSceneManager.h>
 
-Object::Object(const Ogre::Vector3& position, const std::string& meshFile)
+Object::Object(const std::string& meshFile, const Ogre::Vector3& position)
 {
   Ogre::SceneManager* sceneManager=Ogre::Root::getSingleton().getSceneManagerIterator().current()->second;
   Ogre::Entity* entity=sceneManager->createEntity(meshFile);

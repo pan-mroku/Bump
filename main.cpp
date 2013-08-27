@@ -9,12 +9,12 @@
 
 int main()
 {
-  Ogre::Root* OgreRoot=new Ogre::Root();
+  Ogre::Root* OgreRoot=new Ogre::Root;
 
   Ogre::RenderWindow* Window;
 
   if(OgreRoot->restoreConfig() || OgreRoot->showConfigDialog())
-    Window = OgreRoot->initialise(true, "Analiza detekcji kolizji."); //koniecznie tuż pod konstruktorem root!
+    Window = OgreRoot->initialise(true, "GJK"); //koniecznie tuż pod konstruktorem root!
   else
     throw -1;
 
@@ -23,7 +23,7 @@ int main()
   Ogre::Light* l = SceneMgr->createLight("MainLight");
   l->setPosition(20,-80,50);
 
-  Ogre::ResourceGroupManager::getSingleton().addResourceLocation("Suzanne", "FileSystem");
+  Ogre::ResourceGroupManager::getSingleton().addResourceLocation("Resources", "FileSystem");
   Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
   Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);//Ponoć niektóre API to omijają, więc warto dodać
@@ -39,7 +39,7 @@ int main()
 
   Ogre::Timer timer;
   
-  Object o;
+  Object o("Suzanne.mesh");
   
   try
     {
