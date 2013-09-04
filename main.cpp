@@ -5,21 +5,39 @@
 #include <OgreLogManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreWindowEventUtilities.h>
+#include <QtGui/QGuiApplication>
+#include <QtQuick/QQuickView>
+#include <QtQml/QQmlContext>
 #include "object.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
+
+  QGuiApplication app(argc, argv);
+
+  QQuickView view;
+  view.setResizeMode(QQuickView::SizeRootObjectToView);
+  view.setSource(QUrl::fromLocalFile("qml/main.qml"));
+  view.rootContext()->setContextProperty("Window", &view);
+  view.show();
+  view.raise();
+
   Ogre::Root* OgreRoot=new Ogre::Root;
 
   Ogre::RenderWindow* Window;
 
   if(OgreRoot->restoreConfig() || OgreRoot->showConfigDialog())
-    Window = OgreRoot->initialise(true, "GJK"); //koniecznie tuż pod konstruktorem root!
+    Window = OgreRoot->initialise(false, "GJK"); //koniecznie tuż pod konstruktorem root!
   else
     throw -1;
 
+  Ogre::NameValuePairList misc;
+  misc["parentWindowHandle"] = Ogre::StringConverter::toString((int)view.winId());
+
+  Window = OgreRoot->createRenderWindow("Main RenderWindow", 1280, 1024, false, &misc);
+
   Ogre::SceneManager* SceneMgr = OgreRoot->createSceneManager(Ogre::ST_GENERIC);
-  SceneMgr->setAmbientLight(Ogre::ColourValue(0.4, 0.4, 0.4));
+  SceneMgr->setAmbientLight(Ogre::ColourValue(0.6, 0.6, 0.6));
   Ogre::Light* l = SceneMgr->createLight("MainLight");
   l->setPosition(20,-80,50);
 
@@ -29,7 +47,7 @@ int main()
   Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);//Ponoć niektóre API to omijają, więc warto dodać
   
   Ogre::Camera* Camera = SceneMgr->createCamera("PlayerCam");
-  Camera->setPosition(Ogre::Vector3(10,-50,10));
+  Camera->setPosition(Ogre::Vector3(0,-25,0));
   Camera->setOrientation(Ogre::Quaternion(1,1,0,0));
   Camera->setNearClipDistance(0.1);
 
@@ -52,6 +70,8 @@ int main()
             {
               return false;
             }
+
+          app.processEvents();
           
           timer.reset();
 
