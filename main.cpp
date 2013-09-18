@@ -5,22 +5,17 @@
 #include <OgreLogManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreWindowEventUtilities.h>
-#include <QtGui/QGuiApplication>
-#include <QtQuick/QQuickView>
-#include <QtQml/QQmlContext>
+#include <QtWidgets/QApplication>
 #include "object.hpp"
+#include "mainwindow.hpp"
 
 int main(int argc, char* argv[])
 {
 
-  QGuiApplication app(argc, argv);
+  QApplication app(argc, argv);
 
-  QQuickView view;
-  view.setResizeMode(QQuickView::SizeRootObjectToView);
-  view.setSource(QUrl::fromLocalFile("qml/main.qml"));
-  view.rootContext()->setContextProperty("Window", &view);
+  MainWindow view;
   view.show();
-  view.raise();
 
   Ogre::Root* OgreRoot=new Ogre::Root;
 
@@ -32,9 +27,15 @@ int main(int argc, char* argv[])
     throw -1;
 
   Ogre::NameValuePairList misc;
-  misc["parentWindowHandle"] = Ogre::StringConverter::toString((int)view.winId());
+  misc["parentWindowHandle"] = Ogre::StringConverter::toString(view.RenderAreaId());
 
-  Window = OgreRoot->createRenderWindow("Main RenderWindow", 1280, 1024, false, &misc);
+  Window = OgreRoot->createRenderWindow("Main RenderWindow", view.RenderAreaWidth(), view.RenderAreaHeight(), false, &misc);
+
+  QObject::connect(&view, &MainWindow::sizeChanged, [=](int width, int height)
+                   {
+                     Window->resize(width,height);
+                   }
+                   );
 
   Ogre::SceneManager* SceneMgr = OgreRoot->createSceneManager(Ogre::ST_GENERIC);
   SceneMgr->setAmbientLight(Ogre::ColourValue(0.6, 0.6, 0.6));
@@ -53,7 +54,7 @@ int main(int argc, char* argv[])
 
   Ogre::Viewport* vp = Window->addViewport(Camera);
   vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-  Camera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+  Camera->setAutoAspectRatio(true);
 
   Ogre::Timer timer;
   
@@ -65,8 +66,9 @@ int main(int argc, char* argv[])
         {
           // Pump window messages for nice behaviour
           Ogre::WindowEventUtilities::messagePump();
+          
 
-          if(Window->isClosed())
+          if(view.isHidden())
             {
               return false;
             }

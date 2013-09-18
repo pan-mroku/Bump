@@ -10,4 +10,5 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position)
   Node=sceneManager->getRootSceneNode()->createChildSceneNode();
   Node->setPosition(position);
   Node->attachObject(entity);
+  //Node->showBoundingBox(true);
 }

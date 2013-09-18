@@ -5,3 +5,5 @@ Makefile
 *.log
 cmake_install.cmake
 *automoc*
+moc_*
+ui_*

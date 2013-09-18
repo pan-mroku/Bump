@@ -5,7 +5,7 @@ PROJECT(gjk)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 
 FIND_PACKAGE(OGRE REQUIRED)
-FIND_PACKAGE(Qt5Core REQUIRED)
+FIND_PACKAGE(Qt5Widgets REQUIRED)
 
 INCLUDE_DIRECTORIES(
   ${OGRE_INCLUDE_DIR}
@@ -19,13 +19,16 @@ SET(CMAKE_AUTOMOC ON)
 
 SET(LIBS OgreMain boost_system)
 
-SET(HEADERS object.hpp)
-SET(SOURCES object.cpp main.cpp)
+QT5_WRAP_UI(ui_mainwindow.h mainwindow.ui)
+
+SET(HEADERS object.hpp mainwindow.hpp ui_mainwindow.h)
+SET(SOURCES object.cpp mainwindow.cpp main.cpp)
 
 ADD_EXECUTABLE(${PROJECT_NAME}
         ${HEADERS}
         ${SOURCES}
         )
 
+QT5_USE_MODULES(${PROJECT_NAME} Widgets)
+
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${LIBS} )
-QT5_USE_MODULES(${PROJECT_NAME} Quick)
