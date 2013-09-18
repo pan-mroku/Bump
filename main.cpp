@@ -67,7 +67,6 @@ int main(int argc, char* argv[])
           // Pump window messages for nice behaviour
           Ogre::WindowEventUtilities::messagePump();
           
-
           if(view.isHidden())
             {
               return false;
