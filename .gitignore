@@ -7,3 +7,4 @@ cmake_install.cmake
 *automoc*
 moc_*
 ui_*
+*.blend*

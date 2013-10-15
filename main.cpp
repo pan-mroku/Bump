@@ -59,6 +59,9 @@ int main(int argc, char* argv[])
   Ogre::Timer timer;
   
   Object o("Suzanne.mesh");
+  Object c("Cube.mesh");
+  Object c1("Cube.mesh", Ogre::Vector3(2,0,0));
+  //  Object t("Triangle
   
   try
     {
