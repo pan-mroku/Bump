@@ -15,6 +15,9 @@ class MainWindow : public QMainWindow
 signals:
   void sizeChanged(int width, int height);
 
+public slots:
+  void SwitchCollisionInScene(bool SceneCollisionState);
+
 public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();

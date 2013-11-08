@@ -15,7 +15,10 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position)
   Node->attachObject(entity);
 
   Node->showBoundingBox(true);
+}
 
+void Object::PrintFaceVertexCoords() const
+{
   //http://ogre3d.org/forums/viewtopic.php?f=2&t=65573
   //
   for (auto o : Node->getAttachedObjectIterator())
@@ -62,13 +65,13 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position)
             
           //Zrzut tabel
           /*          std::cout<<"v: ";
-          for(int i=0;i<vertexBuffer->getNumVertices()*vertexSizeInBuffer;i++)
-            std::cout<<vertices[i]<<" ";
-          std::cout<<std::endl;
-          std::cout<<"i: ";
-          for(int i=0;i<indexBuffer->getNumIndexes();i++)
-            std::cout<<indices[i]<<" ";
-            std::cout<<std::endl;*/
+                      for(int i=0;i<vertexBuffer->getNumVertices()*vertexSizeInBuffer;i++)
+                      std::cout<<vertices[i]<<" ";
+                      std::cout<<std::endl;
+                      std::cout<<"i: ";
+                      for(int i=0;i<indexBuffer->getNumIndexes();i++)
+                      std::cout<<indices[i]<<" ";
+                      std::cout<<std::endl;*/
 
           vertexBuffer->unlock();
           indexBuffer->unlock();

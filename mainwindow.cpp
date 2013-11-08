@@ -1,5 +1,6 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -31,4 +32,9 @@ int MainWindow::RenderAreaHeight() const
 void MainWindow::resizeEvent(QResizeEvent * event)
 {
   emit sizeChanged(RenderAreaWidth(), RenderAreaHeight());
+}
+
+void MainWindow::SwitchCollisionInScene(bool SceneCollisionState)
+{
+  std::cout<<SceneCollisionState<<std::endl;
 }

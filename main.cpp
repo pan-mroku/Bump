@@ -8,6 +8,8 @@
 #include <QtWidgets/QApplication>
 #include "object.hpp"
 #include "mainwindow.hpp"
+#include "scene.hpp"
+#include <list>
 
 int main(int argc, char* argv[])
 {
@@ -58,10 +60,20 @@ int main(int argc, char* argv[])
 
   Ogre::Timer timer;
   
-  Object o("Suzanne.mesh");
+  /*  Object o("Suzanne.mesh");
   Object c("Cube.mesh");
-  Object c1("Cube.mesh", Ogre::Vector3(2,0,0));
+  Object c1("Cube.mesh", Ogre::Vector3(2,0,0));*/
   //  Object t("Triangle
+
+  boost::property_tree::basic_ptree<std::string, std::string> pt;
+  boost::property_tree::ini_parser::read_ini("scenes.ini", pt);
+  std::list<Scene*> Scenes;
+  for(auto sceneProperties : pt)
+    {
+      Scene* s=new Scene(sceneProperties.second);
+      //QObject::connect((const Object*)s, &Scene::ObjectsCollisionInSceneChanged, &MainWindow::SwitchCollisionInScene);
+      Scenes.push_back(s);
+    }
   
   try
     {
@@ -76,6 +88,9 @@ int main(int argc, char* argv[])
             }
 
           app.processEvents();
+
+          for(Scene* s : Scenes)
+            s->CheckSceneCollision();
           
           timer.reset();
 
