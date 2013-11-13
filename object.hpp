@@ -7,7 +7,7 @@
 class Object
 {
 public:
-  Ogre::SceneNode* Node; //to tylko skrót. Pamięcią zajmuje sie Ogre
+  Ogre::SceneNode* Node; //to tylko skrót. Pamięcią zajmuje się Ogre
 
   Object(){}
   Object(const std::string& meshFile, const Ogre::Vector3& position=Ogre::Vector3(0,0,0));

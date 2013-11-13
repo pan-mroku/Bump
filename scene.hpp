@@ -15,6 +15,7 @@ signals:
 
 protected:
   bool isCollisionSwitchStillOn;
+  bool isActive;
 
 public:
   /* Ogre::Vector3::squaredDistance
@@ -23,9 +24,14 @@ public:
   float DistanceSquared; 
   Object ObjectA, ObjectB;
 
+
   Scene(boost::property_tree::basic_ptree<std::string, std::string>& propertyTree);
 
   void CheckSceneCollision();
+  void SetInactive();
+  void SetActive();
+
+  const bool IsActive() const;
 };
 
 #endif

@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+  connect(ui->DropdownListScene, SIGNAL(currentIndexChanged(const QString&)), SLOT(sceneDropdownChanged(const QString&)));
 }
 
 MainWindow::~MainWindow()
@@ -36,5 +37,18 @@ void MainWindow::resizeEvent(QResizeEvent * event)
 
 void MainWindow::SwitchCollisionInScene(bool SceneCollisionState)
 {
-  std::cout<<SceneCollisionState<<std::endl;
+  if(SceneCollisionState)
+    ui->DisplayCollisionScene->display(1);
+  else
+    ui->DisplayCollisionScene->display(0);
+}
+
+void MainWindow::sceneDropdownChanged(const QString& sceneQTitle)
+{
+  emit sceneChanged(sceneQTitle.toStdString());
+}
+
+void MainWindow::AddScene(std::string sceneTitle)
+{
+  ui->DropdownListScene->addItem(QString(sceneTitle.c_str()));
 }

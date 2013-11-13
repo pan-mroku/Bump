@@ -60,20 +60,29 @@ int main(int argc, char* argv[])
 
   Ogre::Timer timer;
   
-  /*  Object o("Suzanne.mesh");
-  Object c("Cube.mesh");
-  Object c1("Cube.mesh", Ogre::Vector3(2,0,0));*/
-  //  Object t("Triangle
-
   boost::property_tree::basic_ptree<std::string, std::string> pt;
   boost::property_tree::ini_parser::read_ini("scenes.ini", pt);
-  std::list<Scene*> Scenes;
+  std::list<std::pair<std::string, Scene*>> Scenes;
+
   for(auto sceneProperties : pt)
     {
       Scene* s=new Scene(sceneProperties.second);
-      //QObject::connect((const Object*)s, &Scene::ObjectsCollisionInSceneChanged, &MainWindow::SwitchCollisionInScene);
-      Scenes.push_back(s);
+      s->SetInactive();
+      QObject::connect(s, &Scene::ObjectsCollisionInSceneChanged, &view, &MainWindow::SwitchCollisionInScene);
+      Scenes.push_back(std::make_pair(sceneProperties.first,s));
+      view.AddScene(sceneProperties.first);
     }
+  Scenes.begin()->second->SetActive();
+  
+  QObject::connect(&view, &MainWindow::sceneChanged, [=](const std::string& sceneTitle)
+                   {
+                     for (auto scenePair : Scenes)
+                       if(scenePair.second->IsActive())
+                         scenePair.second->SetInactive();
+                       else if(scenePair.first==sceneTitle)
+                         scenePair.second->SetActive();
+                   }
+                   );
   
   try
     {
@@ -89,8 +98,12 @@ int main(int argc, char* argv[])
 
           app.processEvents();
 
-          for(Scene* s : Scenes)
-            s->CheckSceneCollision();
+          for(auto scenePair : Scenes)
+            {
+              Scene* scene=scenePair.second;
+              if(scene->IsActive())
+                scene->CheckSceneCollision();
+            }
           
           timer.reset();
 

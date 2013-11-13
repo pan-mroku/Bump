@@ -14,9 +14,15 @@ class MainWindow : public QMainWindow
 
 signals:
   void sizeChanged(int width, int height);
+  void sceneChanged(const std::string& sceneTitle);
+  void algorithmChanged(const std::string& algorithmTitle);
+                                         
 
 public slots:
   void SwitchCollisionInScene(bool SceneCollisionState);
+protected slots:
+  void sceneDropdownChanged(const QString& sceneQTitle);
+  //void algorithmDropdownChanged(const QString& algorithmQTitle);
 
 public:
   explicit MainWindow(QWidget *parent = 0);
@@ -25,6 +31,8 @@ public:
   int RenderAreaId() const;
   int RenderAreaWidth() const;
   int RenderAreaHeight() const;
+
+  void AddScene(std::string sceneTitle);
 
 protected:
   void resizeEvent(QResizeEvent * event);
