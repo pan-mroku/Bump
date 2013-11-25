@@ -30,6 +30,11 @@ int MainWindow::RenderAreaHeight() const
   return ui->widget->height();
 }
 
+QWidget* MainWindow::RenderAreaPtr()
+{
+  return ui->widget;
+}
+
 void MainWindow::resizeEvent(QResizeEvent * event)
 {
   emit sizeChanged(RenderAreaWidth(), RenderAreaHeight());

@@ -31,6 +31,7 @@ public:
   int RenderAreaId() const;
   int RenderAreaWidth() const;
   int RenderAreaHeight() const;
+  QWidget* RenderAreaPtr();
 
   void AddScene(std::string sceneTitle);
 

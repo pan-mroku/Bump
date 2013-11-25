@@ -21,8 +21,8 @@ SET(LIBS OgreMain boost_system)
 
 QT5_WRAP_UI(ui_mainwindow.h mainwindow.ui)
 
-SET(HEADERS scene.hpp object.hpp mainwindow.hpp ui_mainwindow.h)
-SET(SOURCES scene.cpp object.cpp mainwindow.cpp main.cpp)
+SET(HEADERS ogrewidget.hpp scene.hpp object.hpp mainwindow.hpp ui_mainwindow.h)
+SET(SOURCES ogrewidget.cpp scene.cpp object.cpp mainwindow.cpp main.cpp)
 
 ADD_EXECUTABLE(${PROJECT_NAME}
         ${HEADERS}
