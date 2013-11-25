@@ -15,21 +15,6 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-int MainWindow::RenderAreaId() const
-{
-  return ui->widget->winId();
-}
-
-int MainWindow::RenderAreaWidth() const
-{
-  return ui->widget->width();
-}
-
-int MainWindow::RenderAreaHeight() const
-{
-  return ui->widget->height();
-}
-
 QWidget* MainWindow::RenderAreaPtr()
 {
   return ui->widget;

@@ -43,3 +43,4 @@ void OgreWidget::resize(int width, int height)
 {
   Window->resize(width,height);
 }
+
