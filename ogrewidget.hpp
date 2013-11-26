@@ -9,7 +9,7 @@
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
 
-/** Widget Qt opakowujacy Ogre.
+/** Widget Qt opakowujący Ogre.
  */
 class OgreWidget:public QWidget
 {
@@ -18,27 +18,31 @@ class OgreWidget:public QWidget
 
 public:
   /** Konstruktor.
-      @param parent Wskaźnik do widgetu wyższego w hierarchii. Potrzebny tylko dla id obszaru do renderowania.
-      @param windowName Unikalna nazwa używana wewnątrz Ogre.
+      @param parent Wskaźnik do widgetu wyższego w hierarchii.
   */
-  OgreWidget(QWidget* parent, const std::string& windowName);
+  OgreWidget(QWidget* parent);
 
   /** Destruktor.
    */
   ~OgreWidget();
+
+  /** Zmienia rozmiar okna w Ogre oraz w Qwidget.*/
+  void resize(int width, int height);
 
   Ogre::Root* Root;
   Ogre::RenderWindow* Window;
   Ogre::SceneManager* SceneManager;
   Ogre::Camera* Camera;
 
-public slots:
+protected:
+  virtual void keyPressEvent(QKeyEvent* qKeyEvent);
+  virtual void mousePressEvent(QMouseEvent* qMouseEvent);
+  virtual void mouseReleaseEvent(QMouseEvent* qMouseEvent);
+  virtual void mouseMoveEvent(QMouseEvent* qMouseEvent);
 
-  /** Slot zmieniajacy rozmiary okna Ogre.
-      @note
-      Było potrzebne, bo QT 5.1 jakoś inaczej zmienia rozmiar. QResizeEvent nie pomoże, bo w QT zmienia się rozmiar widgetu, po którym po prostu rysujemy, a nie rozmiar OgreWidget.
-  */
-  void resize(int width, int height);
+  bool isMousePressed;
+  QPointF lastMousePosition;
+
 };
 
 #endif

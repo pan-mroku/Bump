@@ -4,6 +4,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QtGui/QResizeEvent>
 
+class OgreWidget;
+
 namespace Ui {
   class MainWindow;
 }
@@ -18,11 +20,6 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 signals:
-  /** Sygnał informujący o zmianie rozmiaru okna.
-      @remarks
-      Potrzebny dla OgreWidget. Porównaj OgreWidget::resize.
-*/
-  void sizeChanged(int width, int height);
   /** Sygnał informujący, że z listy została wybrana scena.*/
   void sceneChanged(const std::string& sceneTitle);
   /** Sygnał informujący, że z listy został wybrany algorytm. */
@@ -46,7 +43,7 @@ public:
       @remarks
       Porównaj OgreWidget::OgreWidget.
   */
-  QWidget* RenderAreaPtr();
+  OgreWidget* RenderAreaPtr();
 
   /** Dodaj scenę do rozwijalnej listy.*/
   void AddScene(std::string sceneTitle);

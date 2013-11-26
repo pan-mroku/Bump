@@ -7,7 +7,7 @@
 
 /** Klasa dla poszczególnych scen.
    @remarks
-   Buduje się wg zapisów z plików ini. Przechowuje wszystko, co zwiazane ze sceną: obiekty, odległość między obiektami, dla której następuje kolizja.
+   Buduje się według zapisów z plików ini. Przechowuje wszystko, co związane ze sceną: obiekty, odległość między obiektami, dla której następuje kolizja.
    @note
    Być może wartoby każdej scenie przypisać też osobny Ogre::SceneManager.
 */

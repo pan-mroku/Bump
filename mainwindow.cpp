@@ -7,7 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+
   connect(ui->DropdownListScene, SIGNAL(currentIndexChanged(const QString&)), SLOT(sceneDropdownChanged(const QString&)));
+ 
+ ui->widget->grabKeyboard();
 }
 
 MainWindow::~MainWindow()
@@ -15,14 +18,14 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-QWidget* MainWindow::RenderAreaPtr()
+OgreWidget* MainWindow::RenderAreaPtr()
 {
   return ui->widget;
 }
 
-void MainWindow::resizeEvent(QResizeEvent * event)
+void MainWindow::resizeEvent(QResizeEvent* event)
 {
-  emit sizeChanged(RenderAreaWidth(), RenderAreaHeight());
+  ui->widget->resize(ui->OgrePositionHack->size().width(), ui->OgrePositionHack->size().height());
 }
 
 void MainWindow::SwitchCollisionInScene(bool SceneCollisionState)
