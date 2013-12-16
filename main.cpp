@@ -5,6 +5,7 @@
 #include "mainwindow.hpp"
 #include "scene.hpp"
 #include "ogrewidget.hpp"
+#include "collisiondetector.hpp"
 #include <list>
 
 int main(int argc, char* argv[])
@@ -55,6 +56,9 @@ int main(int argc, char* argv[])
                              scenePair.second->SetActive();
                        }
                        );
+
+      CollisionDetector collisionDetector;
+      QObject::connect(&collisionDetector, &CollisionDetector::ObjectsCollisionInAlgorithmChanged, &view, &MainWindow::SwitchCollisionInAlgorithm);
   
 
       while(true)
@@ -69,19 +73,22 @@ int main(int argc, char* argv[])
 
           app.processEvents();
 
+          deltaTimer.reset();          
+
           for(auto scenePair : Scenes)
             {
               Scene* scene=scenePair.second;
               if(scene->IsActive())
-                scene->CheckSceneCollision();
+                {
+                  scene->CheckSceneCollision();
+                  collisionDetector.CheckCollision(scene->ObjectA, scene->ObjectB);
+                }
             }
-
-          deltaTimer.reset();          
 
           // Render a frame
           if(!root->renderOneFrame()) break;
-
           frameCount++;
+
           if(frameTimer.getMilliseconds()>1000)
             {
               view.setFPS(1000*frameCount/frameTimer.getMilliseconds());

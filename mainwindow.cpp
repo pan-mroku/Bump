@@ -36,6 +36,14 @@ void MainWindow::SwitchCollisionInScene(bool SceneCollisionState)
     ui->DisplayCollisionScene->display(0);
 }
 
+void MainWindow::SwitchCollisionInAlgorithm(bool AlgorithmCollisionState)
+{
+  if(AlgorithmCollisionState)
+    ui->DisplayCollisionAlgorithm->display(1);
+  else
+    ui->DisplayCollisionAlgorithm->display(0);
+}
+
 void MainWindow::sceneDropdownChanged(const QString& sceneQTitle)
 {
   emit sceneChanged(sceneQTitle.toStdString());

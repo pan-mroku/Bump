@@ -29,6 +29,9 @@ signals:
 public slots:
   /** Slot powodujący zaznaczenie, że nastąpiła kolizja zapisana w scenie.*/
   void SwitchCollisionInScene(bool SceneCollisionState);
+  /** Slot powodujący zaznaczenie, że algorytm wykrył kolizję.*/
+  void SwitchCollisionInAlgorithm(bool AlgorithmCollisionState);
+
 protected slots:
   void sceneDropdownChanged(const QString& sceneQTitle);
   //void algorithmDropdownChanged(const QString& algorithmQTitle);
