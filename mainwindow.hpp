@@ -48,6 +48,9 @@ public:
   /** Dodaj scenę do rozwijalnej listy.*/
   void AddScene(std::string sceneTitle);
 
+  /** Wyświetl FPS.*/
+  void setFPS(unsigned long fps);
+
 protected:
   void resizeEvent(QResizeEvent * event);
 

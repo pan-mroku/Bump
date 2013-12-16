@@ -28,7 +28,9 @@ int main(int argc, char* argv[])
       MainWindow view;
       view.show();
   
-      Ogre::Timer timer;
+      Ogre::Timer frameTimer;
+      Ogre::Timer deltaTimer;
+      unsigned long frameCount=0;
   
       boost::property_tree::basic_ptree<std::string, std::string> pt;
       boost::property_tree::ini_parser::read_ini("scenes.ini", pt);
@@ -73,11 +75,20 @@ int main(int argc, char* argv[])
               if(scene->IsActive())
                 scene->CheckSceneCollision();
             }
-          
-          timer.reset();
+
+          deltaTimer.reset();          
 
           // Render a frame
           if(!root->renderOneFrame()) break;
+
+          frameCount++;
+          if(frameTimer.getMilliseconds()>1000)
+            {
+              view.setFPS(1000*frameCount/frameTimer.getMilliseconds());
+              frameCount=0;
+              frameTimer.reset();
+            }
+          
         }
     }
   catch( Ogre::Exception& oe ) 

@@ -45,3 +45,8 @@ void MainWindow::AddScene(std::string sceneTitle)
 {
   ui->DropdownListScene->addItem(QString(sceneTitle.c_str()));
 }
+
+void MainWindow::setFPS(unsigned long fps)
+{
+  ui->FPSLabel->setText(QString::number(fps));
+}
