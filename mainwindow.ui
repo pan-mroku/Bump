@@ -38,17 +38,12 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="100,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="90,0">
       <item>
-       <widget class="QWidget" name="OgrePositionHack" native="true">
+       <widget class="OgreWidget" name="widget" native="true">
         <property name="autoFillBackground">
          <bool>true</bool>
         </property>
-        <widget class="OgreWidget" name="widget" native="true">
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-        </widget>
        </widget>
       </item>
       <item>

@@ -25,7 +25,7 @@ OgreWidget* MainWindow::RenderAreaPtr()
 
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
-  ui->widget->resize(ui->OgrePositionHack->size().width(), ui->OgrePositionHack->size().height());
+  ui->widget->resize(ui->widget->size().width(), ui->widget->size().height());
 }
 
 void MainWindow::SwitchCollisionInScene(bool SceneCollisionState)
