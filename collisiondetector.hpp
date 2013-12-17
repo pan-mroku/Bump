@@ -4,9 +4,14 @@
 #include "object.hpp"
 #include <QtCore/QObject>
 
+/** Klasa zawierająca algorytmy detekcji kolizji.
+    @remarks
+    Rozwiązanie mało profesjonalne, ale ostatecznie chodzi głównie o porównywanie między sobą różnych algorytmów. Gdyby się uprzeć możnaby je nawet jako statyczne funkcje zdefiniować, więc nie ma co niewiadomo czego wymyślać.
+*/
 class CollisionDetector:public QObject
 {
 
+  /** Enumerator nazywający algorytmy, żeby można było w miarę łąto z zewnątrz je przełączać, przy jednoczesnym zachowaniu pewności co jest wywoływane.*/
   typedef enum
     {
       None,
@@ -37,7 +42,7 @@ public:
   /** Sprawdza, czy według aktywnego algorytmu następuje kolizja miedzy obiektami.
       @remarks
       Jeśli potrzeba, samo wysyła sygnał Scene::ObjectsCollisionInSceneChanged.
-      @param Referencje do obiektów, miedzy którymi bada kolizję.
+      @param objectA, objectB Referencje do obiektów, miedzy którymi bada kolizję.
   */
   void CheckCollision(const Object& objectA, const Object& objectB);
 

@@ -6,12 +6,19 @@
 #include <OgreEdgeListBuilder.h>
 #include <iostream>
 
-Object::Object(const std::string& meshFile, const Ogre::Vector3& position)
+Object::Object(const std::string& meshFile, const Ogre::Vector3& position, bool left)
 {
   Ogre::SceneManager* sceneManager=Ogre::Root::getSingleton().getSceneManagerIterator().current()->second;
   Ogre::Entity* entity=sceneManager->createEntity(meshFile);
   Node=sceneManager->getRootSceneNode()->createChildSceneNode();
+
   Node->setPosition(position);
+
+  if(left)
+    moveVector=Ogre::Vector3(0.02,0,0);
+  else
+    moveVector=Ogre::Vector3(-0.02,0,0);
+
   Node->attachObject(entity);
 
   Node->showBoundingBox(true);
@@ -77,4 +84,14 @@ void Object::PrintFaceVertexCoords() const
           indexBuffer->unlock();
         }
     }
+}
+
+void Object::Move(unsigned long delta)
+{
+  Node->translate(moveVector*delta);
+}
+
+void Object::FlipMoveVector()
+{
+  moveVector*=-1;
 }

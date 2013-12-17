@@ -23,8 +23,9 @@ public:
   /** Konstruktor.
       @param meshFile Nazwa pliku z zasobów (Resource), w którym znajduje sie siatka obiektu.
       @param position Początkowa pozycja obiektu.
+      @param left określa, czy obiekt jest z lewej strony, czy prawej. Wpływa to na wektor ruchu.
   */
-  Object(const std::string& meshFile, const Ogre::Vector3& position=Ogre::Vector3(0,0,0));
+  Object(const std::string& meshFile, const Ogre::Vector3& position=Ogre::Vector3(-1,0,0), bool left=true);
 
   /** Wypisuje współrzędne każdego wierzchołka każdej ściany na std::cout.
       @note
@@ -32,12 +33,20 @@ public:
   */
   void PrintFaceVertexCoords() const;
 
+  /** Przesuwa obiekt zgodnie z czasem, jaki upłynął od ostatniej klatki. */
+  void Move(unsigned long delta);
+
+  /** Odwraca ruch obiektu. */
+  void FlipMoveVector();
+  
 protected:
   /** Domyślny konstruktor.
       @remarks
       Jest wymagany przez konstruktor Scene::Scene.
   */
   Object(){}
+
+  Ogre::Vector3 moveVector;
 
   friend class Scene;
 };

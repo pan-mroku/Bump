@@ -50,6 +50,9 @@ public:
   void SetActive();
 
   const bool IsActive() const;
+
+  /** Zarządza ruchem obiektów. */
+  void Tick(unsigned long delta);
 };
 
 #endif

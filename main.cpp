@@ -73,8 +73,6 @@ int main(int argc, char* argv[])
 
           app.processEvents();
 
-          deltaTimer.reset();          
-
           for(auto scenePair : Scenes)
             {
               Scene* scene=scenePair.second;
@@ -82,6 +80,12 @@ int main(int argc, char* argv[])
                 {
                   scene->CheckSceneCollision();
                   collisionDetector.CheckCollision(scene->ObjectA, scene->ObjectB);
+                  if(deltaTimer.getMilliseconds()>1000/30)
+                    {
+                      scene->Tick(deltaTimer.getMilliseconds()*30/1000);
+                      deltaTimer.reset();
+                    }
+                  break;
                 }
             }
 

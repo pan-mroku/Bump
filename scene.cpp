@@ -5,9 +5,9 @@ Scene::Scene(boost::property_tree::basic_ptree<std::string, std::string>& proper
 {
   for(auto property : propertyTree) //std::pair<string,basic_ptree>
     if(property.first=="ObjectA")
-      ObjectA=Object(property.second.data(),Ogre::Vector3(-1,0,0));
+      ObjectA=Object(property.second.data(),Ogre::Vector3(-2,0,0));
     else if(property.first=="ObjectB")
-      ObjectB=Object(property.second.data(),Ogre::Vector3(1,0,0));
+      ObjectB=Object(property.second.data(),Ogre::Vector3(2,0,0),false);
     else if(property.first=="DistanceSquared")
       {
         float distance=std::stof(property.second.data());
@@ -55,4 +55,18 @@ void Scene::SetActive()
 const bool Scene::IsActive() const
 {
   return isActive;
+}
+
+void Scene::Tick(unsigned long delta)
+{
+  ObjectA.Move(delta);
+  ObjectB.Move(delta);
+
+  Ogre::Vector3 positionA=ObjectA.Node->_getDerivedPosition();
+
+  if(positionA.x>0 || positionA.x<-2)
+    {
+      ObjectA.FlipMoveVector();
+      ObjectB.FlipMoveVector();
+    }
 }
