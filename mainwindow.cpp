@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
 
   connect(ui->DropdownListScene, SIGNAL(currentIndexChanged(const QString&)), SLOT(sceneDropdownChanged(const QString&)));
+
+  connect(ui->DropdownListAlgorithm, SIGNAL(currentIndexChanged(const QString&)), SLOT(algorithmDropdownChanged(const QString&)));
  
  ui->widget->grabKeyboard();
 }
@@ -49,9 +51,19 @@ void MainWindow::sceneDropdownChanged(const QString& sceneQTitle)
   emit sceneChanged(sceneQTitle.toStdString());
 }
 
+void MainWindow::algorithmDropdownChanged(const QString& algorithmQTitle)
+{
+  emit algorithmChanged(algorithmQTitle.toStdString());
+}
+
 void MainWindow::AddScene(std::string sceneTitle)
 {
   ui->DropdownListScene->addItem(QString(sceneTitle.c_str()));
+}
+
+void MainWindow::AddAlgorithm(std::string algorithmTitle)
+{
+  ui->DropdownListAlgorithm->addItem(QString(algorithmTitle.c_str()));
 }
 
 void MainWindow::setFPS(unsigned long fps)

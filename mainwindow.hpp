@@ -24,7 +24,6 @@ signals:
   void sceneChanged(const std::string& sceneTitle);
   /** Sygnał informujący, że z listy został wybrany algorytm. */
   void algorithmChanged(const std::string& algorithmTitle);
-                                         
 
 public slots:
   /** Slot powodujący zaznaczenie, że nastąpiła kolizja zapisana w scenie.*/
@@ -34,7 +33,7 @@ public slots:
 
 protected slots:
   void sceneDropdownChanged(const QString& sceneQTitle);
-  //void algorithmDropdownChanged(const QString& algorithmQTitle);
+  void algorithmDropdownChanged(const QString& algorithmQTitle);
 
 public:
   /** Konstruktor. */
@@ -50,6 +49,9 @@ public:
 
   /** Dodaj scenę do rozwijalnej listy.*/
   void AddScene(std::string sceneTitle);
+
+  /** Dodaj algorytm do rozwijalnej listy.*/
+  void AddAlgorithm(std::string algorithmTitle);
 
   /** Wyświetl FPS.*/
   void setFPS(unsigned long fps);

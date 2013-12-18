@@ -9,7 +9,7 @@
 Object::Object(const std::string& meshFile, const Ogre::Vector3& position, bool left)
 {
   Ogre::SceneManager* sceneManager=Ogre::Root::getSingleton().getSceneManagerIterator().current()->second;
-  Ogre::Entity* entity=sceneManager->createEntity(meshFile);
+  Entity=sceneManager->createEntity(meshFile);
   Node=sceneManager->getRootSceneNode()->createChildSceneNode();
 
   Node->setPosition(position);
@@ -19,7 +19,7 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position, bool 
   else
     moveVector=Ogre::Vector3(-0.02,0,0);
 
-  Node->attachObject(entity);
+  Node->attachObject(Entity);
 
   Node->showBoundingBox(true);
 }
@@ -94,4 +94,9 @@ void Object::Move(unsigned long delta)
 void Object::FlipMoveVector()
 {
   moveVector*=-1;
+}
+
+const Ogre::AxisAlignedBox& Object::GetBoundingBox() const
+{
+  return Entity->getWorldBoundingBox();
 }

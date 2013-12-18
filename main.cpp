@@ -59,6 +59,20 @@ int main(int argc, char* argv[])
 
       CollisionDetector collisionDetector;
       QObject::connect(&collisionDetector, &CollisionDetector::ObjectsCollisionInAlgorithmChanged, &view, &MainWindow::SwitchCollisionInAlgorithm);
+      for(auto name : {"None","Bounding box", "Triangle", "Bounding box + triangle"})
+        view.AddAlgorithm(name);
+      QObject::connect(&view, &MainWindow::algorithmChanged, [&](const std::string& algorithmTitle)
+                       {
+                         //default
+                         collisionDetector.ActiveAlgorithm=CollisionDetector::None;
+                         if(algorithmTitle=="Bounding box")
+                           collisionDetector.ActiveAlgorithm=CollisionDetector::BoundingBox;
+                         if(algorithmTitle=="Triangle")
+                           collisionDetector.ActiveAlgorithm=CollisionDetector::Triangle;
+                         if(algorithmTitle=="Bounding box + triangle")
+                           collisionDetector.ActiveAlgorithm=CollisionDetector::Complex;
+                       }
+                       );
   
 
       while(true)

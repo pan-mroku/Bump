@@ -20,6 +20,11 @@ public:
   */
   Ogre::SceneNode* Node; //to tylko skrót. Pamięcią zajmuje się Ogre
 
+  /** Wskaźnik na obiekt przechowujący mesh.
+      @remarks
+      Ułatwia wydobycie danych bezpośrednio związanych z obiektem.*/
+  Ogre::Entity* Entity;
+
   /** Konstruktor.
       @param meshFile Nazwa pliku z zasobów (Resource), w którym znajduje sie siatka obiektu.
       @param position Początkowa pozycja obiektu.
@@ -38,6 +43,11 @@ public:
 
   /** Odwraca ruch obiektu. */
   void FlipMoveVector();
+
+  /** Zwraca bounding box obiektu.
+      @remarks
+      Ogre::WireBoundingBox *mWireBoundingBox z Ogre::SceneNode jest prywatnym polem, więc wystawimy AABB z Ogre::Entity (ostatecznie to jest obiekt z meshem. SceneNode to tylko węzeł sceny.*/
+  const Ogre::AxisAlignedBox& GetBoundingBox() const;
   
 protected:
   /** Domyślny konstruktor.

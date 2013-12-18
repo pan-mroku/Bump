@@ -11,15 +11,6 @@
 class CollisionDetector:public QObject
 {
 
-  /** Enumerator nazywający algorytmy, żeby można było w miarę łąto z zewnątrz je przełączać, przy jednoczesnym zachowaniu pewności co jest wywoływane.*/
-  typedef enum
-    {
-      None,
-      BoundingBox,
-      Triangle,
-      Complex
-    } CollisionAlgorithmEnum;
-
 Q_OBJECT
 
 signals:
@@ -35,6 +26,16 @@ protected:
 
 
 public:
+
+  /** Enumerator nazywający algorytmy, żeby można było w miarę łąto z zewnątrz je przełączać, przy jednoczesnym zachowaniu pewności co jest wywoływane.*/
+  typedef enum
+    {
+      None,
+      BoundingBox,
+      Triangle,
+      Complex
+    } CollisionAlgorithmEnum;
+  
   CollisionAlgorithmEnum ActiveAlgorithm;
 
   CollisionDetector();
@@ -48,6 +49,9 @@ public:
 
   /** Algorytm kolizji, który kompletnie nic nie robi. */
   bool NoneCollisionAlgorithm(const Object& objectA, const Object& objectB);
+
+  /** Algorytm kolizji oparty na BoundingBox. */
+  bool BoundingBoxCollisionAlgorithm(const Object& objectA, const Object& objectB);
 };
 
 #endif
