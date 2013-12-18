@@ -27,6 +27,8 @@ OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), 
   Ogre::Viewport* vp = Window->addViewport(Camera);
   vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
   Camera->setAutoAspectRatio(true);
+
+  setFocus();
 }
 
 OgreWidget::~OgreWidget()
@@ -89,4 +91,9 @@ void OgreWidget::mouseMoveEvent(QMouseEvent* qMouseEvent)
   Ogre::Quaternion xRotation(1,mouseDelta.y()/height(), 0, 0);
 
   Camera->setOrientation(zRotation*Camera->getOrientation()*xRotation);
+}
+
+void OgreWidget::focusOutEvent(QFocusEvent * qFocusEvent)
+{
+  setFocus();
 }

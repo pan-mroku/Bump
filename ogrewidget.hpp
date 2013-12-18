@@ -39,6 +39,11 @@ protected:
   virtual void mousePressEvent(QMouseEvent* qMouseEvent);
   virtual void mouseReleaseEvent(QMouseEvent* qMouseEvent);
   virtual void mouseMoveEvent(QMouseEvent* qMouseEvent);
+  /** Reimplementacja metody QWidget::focusOutEvent. Dzięki temu widget ogre zawsze nasłuchuje klawiaturę, bez kompletnego jej przechwytywania.
+      @remarks
+      W razie potrzeby kilku widżetów ogre lepiej dodać możliwość tworzenia niezachłannych obiektów.
+  */
+  virtual void focusOutEvent(QFocusEvent * qFocusEvent);
 
   bool isMousePressed;
   QPointF lastMousePosition;

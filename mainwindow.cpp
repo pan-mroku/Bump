@@ -11,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->DropdownListScene, SIGNAL(currentIndexChanged(const QString&)), SLOT(sceneDropdownChanged(const QString&)));
 
   connect(ui->DropdownListAlgorithm, SIGNAL(currentIndexChanged(const QString&)), SLOT(algorithmDropdownChanged(const QString&)));
- 
- ui->widget->grabKeyboard();
 }
 
 MainWindow::~MainWindow()
