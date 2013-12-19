@@ -32,6 +32,7 @@ public:
   Ogre::Root* Root;
   Ogre::RenderWindow* Window;
   Ogre::SceneManager* SceneManager;
+  Ogre::SceneNode* Focus;
   Ogre::Camera* Camera;
 
 protected:

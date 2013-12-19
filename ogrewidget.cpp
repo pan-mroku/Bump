@@ -18,11 +18,14 @@ OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), 
   Ogre::NameValuePairList misc;
   misc["parentWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
   Window = Root->createRenderWindow(objectName().toStdString(), parent->width(), parent->height(), false, &misc);
-  
+
   Camera = SceneManager->createCamera(objectName().toStdString());
   Camera->setPosition(Ogre::Vector3(0,-25,0));
   Camera->setOrientation(Ogre::Quaternion(1,1,0,0));
   Camera->setNearClipDistance(0.1);
+
+  Focus=SceneManager->getRootSceneNode()->createChildSceneNode();
+  Focus->attachObject(Camera);
 
   Ogre::Viewport* vp = Window->addViewport(Camera);
   vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
@@ -87,10 +90,10 @@ void OgreWidget::mouseMoveEvent(QMouseEvent* qMouseEvent)
   lastMousePosition=qMouseEvent->localPos();
 
   //Obrót po Z jest globalny, a po X lokalny, stąd trzeba pilnować kolejności
-  Ogre::Quaternion zRotation(1,0, 0, mouseDelta.x()/width());
-  Ogre::Quaternion xRotation(1,mouseDelta.y()/height(), 0, 0);
+  Ogre::Quaternion zRotation(1,0, 0, -mouseDelta.x()/width());
+  Ogre::Quaternion xRotation(1,-mouseDelta.y()/height(), 0, 0);
 
-  Camera->setOrientation(zRotation*Camera->getOrientation()*xRotation);
+  Focus->setOrientation(zRotation*Focus->getOrientation()*xRotation);
 }
 
 void OgreWidget::focusOutEvent(QFocusEvent * qFocusEvent)
