@@ -22,6 +22,8 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position, bool 
   Node->attachObject(Entity);
 
   Node->showBoundingBox(true);
+
+  Mesh=Entity->getMesh().getPointer();
 }
 
 void Object::PrintFaceVertexCoords() const
@@ -64,10 +66,12 @@ void Object::PrintFaceVertexCoords() const
               for(int vertexIndex=0;vertexIndex<3;vertexIndex++)
                 {
                   for(int coordIndex=0;coordIndex<3;coordIndex++)
-                    std::cout<<vertices[positionElementOffsetInVertex+vertexSizeInBuffer*indices[3*faceIndex+vertexIndex]+coordIndex]<<" ";
-                  std::cout<<std::endl;
+                    {
+                      //std::cout<<vertices[positionElementOffsetInVertex+vertexSizeInBuffer*indices[3*faceIndex+vertexIndex]+coordIndex]<<" ";
+                    }
+                  //std::cout<<std::endl;
                 }
-              std::cout<<std::endl;
+              //std::cout<<std::endl;
             }
             
           //Zrzut tabel
@@ -82,6 +86,7 @@ void Object::PrintFaceVertexCoords() const
 
           vertexBuffer->unlock();
           indexBuffer->unlock();
+          std::cout<<"SUBMESH"<<std::endl;
         }
     }
 }

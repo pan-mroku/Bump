@@ -5,6 +5,7 @@
 #include <OgreVector3.h>
 
 class Scene;
+class CollisionDetector;
 
 /** Klasa obiektów.
     @remarks
@@ -18,12 +19,15 @@ public:
       Pozwala na manipulację obiektem w przestrzeni 3D. \n
       Sam węzeł nie należy do nas. Pamięcią zajmuje się Ogre.
   */
-  Ogre::SceneNode* Node; //to tylko skrót. Pamięcią zajmuje się Ogre
+  Ogre::SceneNode* Node;
 
   /** Wskaźnik na obiekt przechowujący mesh.
       @remarks
       Ułatwia wydobycie danych bezpośrednio związanych z obiektem.*/
   Ogre::Entity* Entity;
+
+  /** Wskaźnik na obiekt Ogre::Mesh.*/
+  Ogre::Mesh* Mesh;
 
   /** Konstruktor.
       @param meshFile Nazwa pliku z zasobów (Resource), w którym znajduje sie siatka obiektu.
@@ -59,6 +63,7 @@ protected:
   Ogre::Vector3 moveVector;
 
   friend class Scene;
+  friend class CollisionDetector;
 };
 
 #endif

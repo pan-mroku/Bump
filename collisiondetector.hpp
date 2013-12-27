@@ -52,6 +52,9 @@ public:
 
   /** Algorytm kolizji oparty na BoundingBox. */
   bool BoundingBoxCollisionAlgorithm(const Object& objectA, const Object& objectB);
+
+  /** Algorytm kolizji oparty na trójkątach. */
+  bool TriangleCollisionAlgorithm(const Object& objectA, const Object& objectB);
 };
 
 #endif
