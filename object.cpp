@@ -91,6 +91,22 @@ void Object::PrintFaceVertexCoords() const
     }
 }
 
+void Object::PrintFaceVertexCoordsCivilised() const
+{
+  Mesh->buildEdgeList();
+  
+  Ogre::EdgeData* edgeList=Mesh->getEdgeList();
+  Ogre::EdgeData::EdgeGroup* edgeGroup=&(edgeList->edgeGroups[0]);
+  const Ogre::VertexData* vd=edgeGroup->vertexData;
+  
+  for(int i=0;i<2;i++)
+    {
+      Ogre::EdgeData::Triangle* triangle=&(edgeList->triangles[i]);
+      std::cout<<triangle->indexSet<<" "<<triangle->sharedVertIndex[0]<<" "<<triangle->sharedVertIndex[1]<<" "<<triangle->sharedVertIndex[2]<<" "<<triangle->vertexSet<<" "<<triangle->vertIndex[0]<<" "<<triangle->vertIndex[1]<<" "<<triangle->vertIndex[2]<<" "<<std::endl;
+    }
+  //std::cout<<edgeGroup->edges.size()<<std::endl;
+}
+
 void Object::Move(unsigned long delta)
 {
   Node->translate(moveVector*delta);

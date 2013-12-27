@@ -42,6 +42,11 @@ public:
   */
   void PrintFaceVertexCoords() const;
 
+  /** Próba wygodniejszego wypisania wierzchołków.
+      @note
+      Próba nieudana. Podejście od strony EdgeList tak samo wymaga wywoływania lock na HardwareBuffer.*/
+  void PrintFaceVertexCoordsCivilised() const;
+
   /** Przesuwa obiekt zgodnie z czasem, jaki upłynął od ostatniej klatki. */
   void Move(unsigned long delta);
 
