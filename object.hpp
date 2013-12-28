@@ -66,6 +66,7 @@ protected:
   Object(){}
 
   Ogre::Vector3 moveVector;
+  Ogre::Quaternion quat;
 
   friend class Scene;
   friend class CollisionDetector;

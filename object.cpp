@@ -24,6 +24,7 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position, bool 
   Node->showBoundingBox(true);
 
   Mesh=Entity->getMesh().getPointer();
+  quat=Ogre::Quaternion(1,0.1,0,0);
 }
 
 void Object::PrintFaceVertexCoords() const
@@ -110,6 +111,9 @@ void Object::PrintFaceVertexCoordsCivilised() const
 void Object::Move(unsigned long delta)
 {
   Node->translate(moveVector*delta);
+
+  //What shall we do with rotating sailor?
+  //Node->rotate(quat*delta);
 }
 
 void Object::FlipMoveVector()

@@ -55,6 +55,11 @@ public:
 
   /** Algorytm kolizji oparty na trójkątach. */
   bool TriangleCollisionAlgorithm(const Object& objectA, const Object& objectB);
+
+  /** Algorytm trójkąt-trójkąt TroppTalShimshoni.
+      @remarks
+      http://webee.technion.ac.il/~ayellet/Ps/TroppTalShimshoni.pdf*/
+  bool TroppTalShimshoni(const Ogre::Vector3* triangleP, const Ogre::Vector3* triangleQ);
 };
 
 #endif

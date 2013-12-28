@@ -2,6 +2,7 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreMesh.h>
 #include <OgreSubMesh.h>
+#include <OgreSceneNode.h>
 
 CollisionDetector::CollisionDetector():
   isCollisionSwitchStillOn(false),
@@ -102,24 +103,90 @@ bool CollisionDetector::TriangleCollisionAlgorithm(const Object& objectA, const 
   float* verticesB=(float*)vertexBufferB->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
   unsigned short* indicesB=(unsigned short*)indexBufferB->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
 
+  //Position
+  Ogre::Vector3 positionA=objectA.Node->_getDerivedPosition();
+  Ogre::Vector3 positionB=objectB.Node->_getDerivedPosition();
+
+  //Orientation
+  Ogre::Quaternion orientationA=objectA.Node->_getDerivedOrientation();
+  Ogre::Quaternion orientationB=objectB.Node->_getDerivedOrientation();
 
   //TEST
-  int faceIndex=0;
-  for(int vertexIndex=0;vertexIndex<3;vertexIndex++)
-    {
-      for(int coordIndex=0;coordIndex<3;coordIndex++)
-        {
-          std::cout<<verticesA[positionElementOffsetInVertexA+vertexSizeInBufferA*indicesA[3*faceIndex+vertexIndex]+coordIndex]<<" ";
-        }
-      std::cout<<std::endl;
-    }
-  std::cout<<std::endl;
-  
-  //TroppTalShimshoni
-  //Stage1
-  //Stage2
-  //Stage3
+  /*  int faceIndex=0;
+      for(int vertexIndex=0;vertexIndex<3;vertexIndex++)
+      {
+      int vertexStart=positionElementOffsetInVertexA+vertexSizeInBufferA*indicesA[3*faceIndex+vertexIndex];
+      Ogre::Vector3 vertex=Ogre::Vector3(
+      verticesA[vertexStart],
+      verticesA[vertexStart+1],
+      verticesA[vertexStart+2]
+      );
+                                         
+      std::cout<<orientationA*(vertex+positionA)<<std::endl;
+      }
+      std::cout<<std::endl;*/
 
+  //Zamiast pisania klasy Triangle
+  Ogre::Vector3* triangleA=new Ogre::Vector3[3];
+  Ogre::Vector3* triangleB=new Ogre::Vector3[3];
+  //Będziemy przechowywać wynik kolizji, żeby nie kombinować z porządkowaniem pamięci
+  bool collision=false;
+  
+  //dla każdego trójkąta A
+  for(int faceIndexA=0;faceIndexA<indexBufferA->getNumIndexes()/3;faceIndexA++)
+    {
+      //Pętle są dwie, więc możliwe, że już nastąpiła kolizja.
+      if(collision)
+        break;
+
+      //trójkąt A
+      /*for(int vertexIndex=0;vertexIndex<3;vertexIndex++)
+        {
+          int vertexAStart = positionElementOffsetInVertexA+vertexSizeInBufferA*indicesA[3*faceIndexA+vertexIndex];
+          
+          triangleA[vertexIndex]=orientationA*
+            (
+             Ogre::Vector3(
+                           verticesA[vertexAStart],
+                           verticesA[vertexAStart+1],
+                           verticesA[vertexAStart+2]
+                           )
+             +positionA
+             );
+             }*/
+
+      //sprawdzamy każdy trójkąt B
+      for(int faceIndexB=0;faceIndexB<indexBufferB->getNumIndexes()/3;faceIndexB++)
+        {
+          //trójkąt B
+          for(int vertexIndex=0;vertexIndex<3;vertexIndex++)
+            {
+              int vertexBStart = positionElementOffsetInVertexB+vertexSizeInBufferB*indicesB[3*faceIndexB+vertexIndex];
+              
+              Ogre::Vector3 tmpVertex=Ogre::Vector3(
+                                                    verticesB[vertexBStart],
+                                                    verticesB[vertexBStart+1],
+                                                    verticesB[vertexBStart+2]
+                                                    );
+              //triangleB[vertexIndex]=tmpVertex; //@FIX źle. zapis do pamięci strasznie muli. Niech TroppTalShimshoni przyjmuje inne parametry
+            }
+
+          if(TroppTalShimshoni(triangleA, triangleB))
+            {
+              collision=true;
+              break;
+            }
+          if(TroppTalShimshoni(triangleB, triangleA))
+            {
+              collision=true;
+              break;
+            }
+        }
+    }
+
+  //Porządki
+  delete[] triangleA;  
+  delete[] triangleB;
   //Unlock buforów
   vertexBufferA->unlock();
   indexBufferA->unlock();
@@ -129,5 +196,10 @@ bool CollisionDetector::TriangleCollisionAlgorithm(const Object& objectA, const 
   if(indexBufferA!=indexBufferB)
     indexBufferB->unlock();
 
-  return false;  
+  return collision;  
+}
+
+bool CollisionDetector::TroppTalShimshoni(const Ogre::Vector3* triangleP, const Ogre::Vector3* triangleQ)
+{
+  return false;
 }
