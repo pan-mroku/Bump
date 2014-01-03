@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mesh>
     <sharedgeometry vertexcount="3117">
-        <vertexbuffer texture_coords="1" normals="true" positions="true" colours_diffuse="False">
+        <vertexbuffer positions="true" colours_diffuse="False" texture_coords="1" normals="true">
             <vertex>
                 <position y="-0.083750" x="0.468750" z="0.030510"/>
                 <normal y="-0.702597" x="0.659261" z="-0.267708"/>
@@ -15590,7 +15590,7 @@
         </vertexbuffer>
     </sharedgeometry>
     <submeshes>
-        <submesh usesharedvertices="true" use32bitindexes="False" material="SuzanneMaterial" operationtype="triangle_list">
+        <submesh operationtype="triangle_list" material="SuzanneMaterial" use32bitindexes="False" usesharedvertices="true">
             <faces count="5808">
                 <face v2="1" v3="2" v1="0"/>
                 <face v2="2" v3="3" v1="0"/>

@@ -24,6 +24,9 @@ void CollisionDetector::CheckCollision(const Object& objectA, const Object& obje
     case Triangle:
       collision=TriangleCollisionAlgorithm(objectA, objectB);
       break;
+    case Complex:
+      collision=ComplexCollisionAlgorithm(objectA, objectB);
+      break;
     }
 
   if( collision != isCollisionSwitchStillOn )
@@ -72,60 +75,38 @@ bool CollisionDetector::TriangleCollisionAlgorithm(const Object& objectA, const 
   Ogre::Matrix4 transformA=objectA.Node->_getFullTransform();
   Ogre::Matrix4 transformB=objectB.Node->_getFullTransform();
 
-  //TEST
-  /*  int faceIndex=0;
-      for(int vertexIndex=0;vertexIndex<3;vertexIndex++)
-      {
-      int vertexStart=positionElementOffsetInVertexA+vertexSizeInBufferA*indicesA[3*faceIndex+vertexIndex];
-      Ogre::Vector3 vertex=Ogre::Vector3(
-      verticesA[vertexStart],
-      verticesA[vertexStart+1],
-      verticesA[vertexStart+2]
-      );
-                                         
-      std::cout<<orientationA*(vertex+positionA)<<std::endl;
-      }
-      std::cout<<std::endl;*/
-
-  //Dynamiczna alokacja i wektor spowalniały wszystko. Trzeba niestety "na siłę".
+  //trzyprzejściowe pętle bardzo wszystko spowalniały, więc trzeba sobie radzić inaczej
   Ogre::Vector3 a0,a1,a2, b0,b1,b2;
 
   //dla każdego trójkąta A
   for(int faceIndexA=0;faceIndexA<objectA.IndicesBuffer.size()/3;faceIndexA++)
     {
       //trójkąt A
-      int vertexIndex=0;
-      for(auto a : {&a0, &a1, &a2})
-        {
-          *a=transformA*objectA.VerticesBuffer[objectA.IndicesBuffer[3*faceIndexA+vertexIndex]];
-          /*orientationA*
-            (
-             Ogre::Vector3(
-                           verticesA[vertexAStart],
-                           verticesA[vertexAStart+1],
-                           verticesA[vertexAStart+2]
-                           )
-                           +positionA*/
-
-          vertexIndex++;
-        }
+      a0=transformA*objectA.VerticesBuffer[objectA.IndicesBuffer[3*faceIndexA]];
+      a1=transformA*objectA.VerticesBuffer[objectA.IndicesBuffer[3*faceIndexA+1]];
+      a2=transformA*objectA.VerticesBuffer[objectA.IndicesBuffer[3*faceIndexA+2]];
 
       //sprawdzamy każdy trójkąt B
       for(int faceIndexB=0;faceIndexB<objectB.IndicesBuffer.size()/3;faceIndexB++)
         {
           //trójkąt B
-          vertexIndex=0;
-          for(auto b:{&b0, &b1, &b2})
-            {
-              *b=transformB*objectB.VerticesBuffer[objectB.IndicesBuffer[3*faceIndexB+vertexIndex]];
-              vertexIndex++;
-            }
+          b0=transformB*objectB.VerticesBuffer[objectB.IndicesBuffer[3*faceIndexB]];
+          b1=transformB*objectB.VerticesBuffer[objectB.IndicesBuffer[3*faceIndexB+1]];
+          b2=transformB*objectB.VerticesBuffer[objectB.IndicesBuffer[3*faceIndexB+2]];
 
           if(Moller(a0, a1, a2, b0, b1, b2))
             return true;
         }
     }
 
+  return false;
+}
+
+bool CollisionDetector::ComplexCollisionAlgorithm(const Object& objectA, const Object& objectB)
+{
+  if(BoundingBoxCollisionAlgorithm(objectA, objectB))
+    if(TriangleCollisionAlgorithm(objectA, objectB))
+      return true;
   return false;
 }
 

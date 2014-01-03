@@ -56,6 +56,9 @@ public:
   /** Algorytm kolizji oparty na trójkątach. */
   bool TriangleCollisionAlgorithm(const Object& objectA, const Object& objectB);
 
+  /** Algorytm kolizji łączący BB i trójkąty. */
+  bool ComplexCollisionAlgorithm(const Object& objectA, const Object& objectB);
+
   /** Algorytm trójkąt-trójkąt Moller.
       @remarks
       http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tritri.pdf*/
