@@ -29,6 +29,17 @@ public:
   /** Wskaźnik na obiekt Ogre::Mesh.*/
   Ogre::Mesh* Mesh;
 
+  /** Wektor przechowujący wierzchołki.
+      @remarks
+      Odczytywanie ich za każdym razem z buforów (Ogre::HardwareVertexBuffer) było niewydajne.\n
+      Wybrałem wektor, żeby mieć operator[].*/
+  std::vector<Ogre::Vector3> VerticesBuffer;
+
+  /** Lista indeksów kolejnych wierzchołków tworzących trójkąty.
+      @remarks
+      Odczytywanie ich za każdym razem z buforów (Ogre::HardwareIndexBuffer) było niewydajne.*/
+  std::vector<int> IndicesBuffer;
+
   /** Konstruktor.
       @param meshFile Nazwa pliku z zasobów (Resource), w którym znajduje sie siatka obiektu.
       @param position Początkowa pozycja obiektu.
@@ -57,7 +68,13 @@ public:
       @remarks
       Ogre::WireBoundingBox *mWireBoundingBox z Ogre::SceneNode jest prywatnym polem, więc wystawimy AABB z Ogre::Entity (ostatecznie to jest obiekt z meshem. SceneNode to tylko węzeł sceny.*/
   const Ogre::AxisAlignedBox& GetBoundingBox() const;
-  
+
+  /** Odświerza bufory przechowujące wierzchołki i indeksy.
+      @remarks
+      Zakłada, że bufory rzeczywiście należy odźwierzyć. Nie sprawdza w żaden sposób, czy ma to sens, czy nie.
+   */
+  void UpdateBuffers();
+
 protected:
   /** Domyślny konstruktor.
       @remarks

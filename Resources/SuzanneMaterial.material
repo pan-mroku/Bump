@@ -1,12 +1,12 @@
-// Material genrated by blender2ogre 0.5.9
+// SuzanneMaterial genrated by blender2ogre 0.5.9
 
-material Material 
+material SuzanneMaterial 
 {
     receive_shadows on 
 
     technique
     {
-        pass Material
+        pass SuzanneMaterial
         {
             ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
             diffuse 0.6400000190734865 0.6400000190734865 0.6400000190734865 1.0
@@ -30,6 +30,13 @@ material Material
             shading gouraud
             transparent_sorting on
 
+            texture_unit 
+            {
+                texture tex.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
         }
     }
 }

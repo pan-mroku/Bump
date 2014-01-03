@@ -25,6 +25,8 @@ Object::Object(const std::string& meshFile, const Ogre::Vector3& position, bool 
 
   Mesh=Entity->getMesh().getPointer();
   quat=Ogre::Quaternion(1,0.1,0,0);
+
+  UpdateBuffers();
 }
 
 void Object::PrintFaceVertexCoords() const
@@ -61,6 +63,20 @@ void Object::PrintFaceVertexCoords() const
           unsigned short* indices=(unsigned short*)indexBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
 
 
+          //Zrzut tabel
+          std::cout<<"v: ";
+          for(int i=0;i<vertexBuffer->getNumVertices();i++)
+            {
+              for(int j=0;j<vertexSizeInBuffer;j++)
+                std::cout<<vertices[vertexSizeInBuffer*i+j]<<" ";
+              std::cout<<std::endl;
+            }
+          std::cout<<std::endl;
+          std::cout<<"i: ";
+          for(int i=0;i<indexBuffer->getNumIndexes();i++)
+            std::cout<<indices[i]<<" ";
+          std::cout<<std::endl;
+
           //zrzut trójkątów
           for(int faceIndex=0;faceIndex<indexBuffer->getNumIndexes()/3;faceIndex++)
             {
@@ -68,26 +84,17 @@ void Object::PrintFaceVertexCoords() const
                 {
                   for(int coordIndex=0;coordIndex<3;coordIndex++)
                     {
-                      //std::cout<<vertices[positionElementOffsetInVertex+vertexSizeInBuffer*indices[3*faceIndex+vertexIndex]+coordIndex]<<" ";
+                      std::cout<<vertices[positionElementOffsetInVertex+vertexSizeInBuffer*indices[3*faceIndex+vertexIndex]+coordIndex]<<" ";
                     }
-                  //std::cout<<std::endl;
+                  std::cout<<std::endl;
                 }
-              //std::cout<<std::endl;
+              std::cout<<std::endl;
             }
             
-          //Zrzut tabel
-          /*          std::cout<<"v: ";
-                      for(int i=0;i<vertexBuffer->getNumVertices()*vertexSizeInBuffer;i++)
-                      std::cout<<vertices[i]<<" ";
-                      std::cout<<std::endl;
-                      std::cout<<"i: ";
-                      for(int i=0;i<indexBuffer->getNumIndexes();i++)
-                      std::cout<<indices[i]<<" ";
-                      std::cout<<std::endl;*/
+
 
           vertexBuffer->unlock();
           indexBuffer->unlock();
-          std::cout<<"SUBMESH"<<std::endl;
         }
     }
 }
@@ -125,3 +132,73 @@ const Ogre::AxisAlignedBox& Object::GetBoundingBox() const
 {
   return Entity->getWorldBoundingBox();
 }
+
+void Object::UpdateBuffers()
+{
+  //W moich modelach nie ma submeshy, ale niech będzie porządnie.
+  for (Ogre::SubMesh* subMesh : Mesh->getSubMeshIterator())
+    {
+      Ogre::VertexData* vertexData;
+
+      if (subMesh->useSharedVertices)
+        vertexData=Mesh->sharedVertexData;
+      else
+        vertexData=subMesh->vertexData;
+
+      Ogre::HardwareVertexBufferSharedPtr vertexBuffer=vertexData->vertexBufferBinding->getBuffer(vertexData->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION)->getSource());
+          
+      int positionElementOffsetInVertex=vertexData->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION)->getOffset();
+      int vertexSizeInBuffer=vertexData->vertexDeclaration->getVertexSize(vertexData->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION)->getSource())/sizeof(float);
+
+      Ogre::IndexData* indexData=subMesh->indexData;
+      Ogre::HardwareIndexBufferSharedPtr indexBuffer=indexData->indexBuffer;
+
+      float* vertices=(float*)vertexBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
+      unsigned short* indices=(unsigned short*)indexBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
+
+
+      VerticesBuffer.clear();
+      for(int vertIndex=0;vertIndex<vertexBuffer->getNumVertices();vertIndex++)
+        {
+          VerticesBuffer.push_back(Ogre::Vector3(
+                                                 vertices[positionElementOffsetInVertex+vertexSizeInBuffer*vertIndex],
+vertices[positionElementOffsetInVertex+vertexSizeInBuffer*vertIndex+1],
+vertices[positionElementOffsetInVertex+vertexSizeInBuffer*vertIndex+2]
+                                                 ));
+        }
+
+      IndicesBuffer.clear();
+      for(int indIndex=0;indIndex<indexBuffer->getNumIndexes();indIndex++)
+        {
+          IndicesBuffer.push_back(indices[indIndex]);
+        }
+
+      vertexBuffer->unlock();
+      indexBuffer->unlock();
+    }
+
+  //DEBUG
+  /*
+  if(Mesh->getName()=="Cube.mesh")
+    {
+      for(auto v : VerticesBuffer)
+        std::cout<<v<<" ";
+      
+      std::cout<<std::endl<<std::endl;
+      
+      for(auto i : IndicesBuffer)
+        std::cout<<i<<" ";
+      
+      std::cout<<std::endl<<std::endl;
+      
+      for(int index=0;index<IndicesBuffer.size()/3;index++)
+        {
+          for(int i=0;i<3;i++)
+            std::cout<<VerticesBuffer[IndicesBuffer[3*index+i]]<<" ";
+          std::cout<<std::endl;
+        }
+      std::cout<<std::endl<<std::endl<<std::endl;
+    }
+  */
+}
+

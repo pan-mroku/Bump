@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 
       Ogre::Root* root =new Ogre::Root;
       if(root->restoreConfig() || root->showConfigDialog())
-        root->initialise(false, "GJK"); //koniecznie tuż pod konstruktorem root!
+        root->initialise(false, "Bump"); //koniecznie tuż pod konstruktorem root!
       else
         throw "Ogre initialisation error.";
 
