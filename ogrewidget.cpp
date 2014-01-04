@@ -11,9 +11,7 @@ OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), 
     throw "Invalid Ogre::Root!";
 
   SceneManager = Root->createSceneManager(Ogre::ST_GENERIC, "SceneManager");
-  SceneManager->setAmbientLight(Ogre::ColourValue(0.9, 0.9, 0.9));
-  Ogre::Light* l = SceneManager->createLight("MainLight");
-  l->setPosition(20,-80,50);
+  SceneManager->setAmbientLight(Ogre::ColourValue(0.6, 0.6, 0.6));
 
   Ogre::NameValuePairList misc;
   misc["parentWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
