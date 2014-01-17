@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(CollisionAlgorithms)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
 FIND_PACKAGE(OGRE REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
@@ -22,8 +22,8 @@ SET(LIBS OgreMain boost_system)
 
 QT5_WRAP_UI(ui_mainwindow.h mainwindow.ui)
 
-SET(HEADERS collisiondetector.hpp ogrewidget.hpp scene.hpp object.hpp mainwindow.hpp ui_mainwindow.h)
-SET(SOURCES collisiondetector.cpp ogrewidget.cpp scene.cpp object.cpp mainwindow.cpp main.cpp)
+SET(HEADERS opttritri.hpp collisiondetector.hpp ogrewidget.hpp scene.hpp object.hpp mainwindow.hpp ui_mainwindow.h)
+SET(SOURCES opttritri.cpp collisiondetector.cpp ogrewidget.cpp scene.cpp object.cpp mainwindow.cpp main.cpp)
 
 ADD_EXECUTABLE(${PROJECT_NAME}
         ${HEADERS}

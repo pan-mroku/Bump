@@ -64,8 +64,17 @@ void Scene::Tick(unsigned long delta)
 
   Ogre::Vector3 positionA=ObjectA.Node->_getDerivedPosition();
 
-  if(positionA.x>0 || positionA.x<-2)
+  if(positionA.x>0) 
     {
+      ObjectA.Node->setPosition(0,0,0);
+      ObjectB.Node->setPosition(0,0,0);
+      ObjectA.FlipMoveVector();
+      ObjectB.FlipMoveVector();
+    }
+  if(positionA.x<-2)
+    {
+      ObjectA.Node->setPosition(-2,0,0);
+      ObjectB.Node->setPosition(2,0,0);
       ObjectA.FlipMoveVector();
       ObjectB.FlipMoveVector();
     }

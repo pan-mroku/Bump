@@ -58,11 +58,6 @@ public:
 
   /** Algorytm kolizji łączący BB i trójkąty. */
   bool ComplexCollisionAlgorithm(const Object& objectA, const Object& objectB);
-
-  /** Algorytm trójkąt-trójkąt Moller.
-      @remarks
-      http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tritri.pdf*/
-  bool Moller(const Ogre::Vector3& a0, const Ogre::Vector3& a1, const Ogre::Vector3& a2, const Ogre::Vector3& b0, const Ogre::Vector3& b1, const Ogre::Vector3& b2);
 };
 
 #endif

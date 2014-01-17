@@ -12,7 +12,9 @@ OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), 
 
   SceneManager = Root->createSceneManager(Ogre::ST_GENERIC, "SceneManager");
   SceneManager->setAmbientLight(Ogre::ColourValue(0.6, 0.6, 0.6));
-
+  Ogre::Light* l=SceneManager->createLight();
+  l->setPosition(20,-80,50);
+  
   Ogre::NameValuePairList misc;
   misc["parentWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
   Window = Root->createRenderWindow(objectName().toStdString(), parent->width(), parent->height(), false, &misc);

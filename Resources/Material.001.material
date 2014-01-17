@@ -1,0 +1,15 @@
+// Material.001 genrated by blender2ogre 0.6.0
+
+material Material.001 
+{
+    technique
+    {
+        pass Material.001
+        {
+            texture_unit
+            {
+                texture sphere.png
+            }
+        }
+    }
+}
