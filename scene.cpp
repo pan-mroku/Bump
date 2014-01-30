@@ -1,5 +1,6 @@
 #include "scene.hpp"
 #include <OgreSceneNode.h>
+#include <cstdlib> //sscanf http://stackoverflow.com/questions/14755484/stoi-and-stdto-string-on-mingw-4-7-1
 
 Scene::Scene(boost::property_tree::basic_ptree<std::string, std::string>& propertyTree):isCollisionSwitchStillOn(false), isActive(true)
 {
@@ -9,10 +10,7 @@ Scene::Scene(boost::property_tree::basic_ptree<std::string, std::string>& proper
     else if(property.first=="ObjectB")
       ObjectB=Object(property.second.data(),Ogre::Vector3(2,0,0),false);
     else if(property.first=="DistanceSquared")
-      {
-        float distance=std::stof(property.second.data());
-        DistanceSquared=distance;
-      }
+      sscanf(property.second.data().c_str(), "%f", &DistanceSquared);
 }
 
 void Scene::CheckSceneCollision()
