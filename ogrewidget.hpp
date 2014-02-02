@@ -1,4 +1,4 @@
-#ifndef OGREWIDGET_HPP
+﻿#ifndef OGREWIDGET_HPP
 #define OGREWIDGET_HPP
 
 #include <QtWidgets/QWidget>
@@ -26,9 +26,6 @@ public:
    */
   ~OgreWidget();
 
-  /** Zmienia rozmiar okna w Ogre oraz w Qwidget.*/
-  void resize(int width, int height);
-
   Ogre::Root* Root;
   Ogre::RenderWindow* Window;
   Ogre::SceneManager* SceneManager;
@@ -36,6 +33,7 @@ public:
   Ogre::Camera* Camera;
 
 protected:
+  virtual void resizeEvent(QResizeEvent* event);
   virtual void keyPressEvent(QKeyEvent* qKeyEvent);
   virtual void mousePressEvent(QMouseEvent* qMouseEvent);
   virtual void mouseReleaseEvent(QMouseEvent* qMouseEvent);

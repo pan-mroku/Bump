@@ -1,4 +1,4 @@
-#include "ogrewidget.hpp"
+﻿#include "ogrewidget.hpp"
 
 OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), lastMousePosition(0,0)
 {
@@ -16,7 +16,7 @@ OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), 
   l->setPosition(20,-80,50);
   
   Ogre::NameValuePairList misc;
-  misc["parentWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
+  misc["externalWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
   Window = Root->createRenderWindow(objectName().toStdString(), parent->width(), parent->height(), false, &misc);
 
   Camera = SceneManager->createCamera(objectName().toStdString());
@@ -39,11 +39,11 @@ OgreWidget::~OgreWidget()
   delete Camera;
 }
 
-void OgreWidget::resize(int width, int height)
+void OgreWidget::resizeEvent(QResizeEvent* event)
 {
-  Window->reposition(pos().x(), pos().y());
-  Window->resize(width,height);
-  QWidget::resize(width,height);
+  Window->reposition(x(), y());
+  Window->resize(width(),height());
+  Window->windowMovedOrResized();
 }
 
 void OgreWidget::keyPressEvent(QKeyEvent* qKeyEvent)

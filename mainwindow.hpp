@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_HPP
+﻿#ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
 #include <QtWidgets/QMainWindow>
@@ -55,9 +55,6 @@ public:
 
   /** Wyświetl FPS.*/
   void setFPS(unsigned long fps);
-
-protected:
-  void resizeEvent(QResizeEvent * event);
 
 private:
   Ui::MainWindow *ui;
