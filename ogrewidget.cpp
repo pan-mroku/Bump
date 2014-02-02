@@ -16,7 +16,11 @@ OgreWidget::OgreWidget(QWidget* parent):QWidget(parent), isMousePressed(false), 
   l->setPosition(20,-80,50);
   
   Ogre::NameValuePairList misc;
+#ifdef WIN32
   misc["externalWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
+#else
+  misc["parentWindowHandle"] = Ogre::StringConverter::toString((unsigned long)winId());
+#endif
   Window = Root->createRenderWindow(objectName().toStdString(), parent->width(), parent->height(), false, &misc);
 
   Camera = SceneManager->createCamera(objectName().toStdString());
