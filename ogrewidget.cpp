@@ -41,6 +41,7 @@ OgreWidget::~OgreWidget()
 
 void OgreWidget::resize(int width, int height)
 {
+  Window->reposition(pos().x(), pos().y());
   Window->resize(width,height);
   QWidget::resize(width,height);
 }
